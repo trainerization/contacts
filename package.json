@@ -1,0 +1,33 @@
+{
+  "name": "contacts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trainerization/contacts.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trainerization/contacts/issues"
+  },
+  "homepage": "https://github.com/trainerization/contacts#readme",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.2",
+    "bourne": "^1.1.2",
+    "content": "^4.0.6",
+    "cryptiles": "^4.1.3",
+    "hapi": "^18.1.0",
+    "iron": "^5.0.6",
+    "pez": "^4.0.5",
+    "typescript": "^4.2.4",
+    "wreck": "^14.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^15.0.1"
+  }
+}

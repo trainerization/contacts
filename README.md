@@ -1,2 +1,0 @@
-# contacts
-Handling contacts
