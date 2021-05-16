@@ -22,7 +22,7 @@ const init = async () => {
     {
       plugin: mongodb,
       options: {
-        url: `mongodb://${process.env.MONGO_SERVER_USERNAME}:${process.env.MONGO_SERVER_PASSWORD}@${process.env.MONGO_SERVER_ADDRESS}?ssl=${process.env.MONGO_SSL_ENABLED}`,
+        url: `mongodb://${process.env.MONGO_SERVER_ADDRESS}?ssl=${process.env.MONGO_SSL_ENABLED}`,
         settings: {
           useUnifiedTopology: true
         },
