@@ -1,80 +1,71 @@
-import * as customer from '../storage/customer.js';
 import Joi from 'joi';
+import schema from '../constants/schema.js';
+import * as handler from './handler.js';
 
 const routeBasePath = '/customers';
-
-// TODO: per tutti gli handler andrà previsto un wrapper che faccia
-// logica ed utilizza le utility di storage ad ora chiamate direttamente
 
 export const routes = [
   {
     method: 'GET',
+    path: routeBasePath,
+    handler: (req) => handler.handleRetrieveAllCustomer(req),
+    config: {
+      tags: ['Customers', 'api'],
+      description: 'Retrive all customer ids'
+    }
+  },
+  {
+    method: 'GET',
     path: routeBasePath + '/{id}',
-    handler: (req) => {
-      return customer.getCustomer(req);
-    },
+    handler: (req) => handler.handleRetrieveCustomer(req),
     config: {
       validate: {
         params: Joi.object({
-          id: Joi.string().required(),
-        }),
+          id: Joi.string().required()
+        })
       },
       tags: ['Customers', 'api'],
-      description: 'Retrive customer information',
-    },
+      description: 'Retrive customer information'
+    }
   },
   {
     method: 'PUT',
-    path: routeBasePath + '/',
-    handler: (req) => {
-      return customer.createCustomer(req);
-    },
+    path: routeBasePath,
+    handler: (req) => handler.handleCreateCustomer(req),
     config: {
       validate: {
-        payload: Joi.object({
-          name: Joi.string().required(),
-          surname: Joi.string().required(),
-          fiscalId: Joi.string().required(),
-        }),
+        payload: schema.customerCreationSchema
       },
       tags: ['Customers', 'api'],
-      description: 'Create a customer',
-    },
+      description: 'Create a customer'
+    }
   },
   {
     method: 'DELETE',
     path: routeBasePath + '/{id}',
-    handler: (req) => {
-      return customer.deleteCustomer(req);
-    },
+    handler: (req) => handler.handleDeleteCustomer(req),
     config: {
       validate: {
         params: Joi.object({
-          id: Joi.string().required(),
-        }),
+          id: Joi.string().required()
+        })
       },
       tags: ['Customers', 'api'],
-      description: 'Delete a customer',
-    },
+      description: 'Delete a customer'
+    }
   },
   {
     method: 'PATCH',
     path: routeBasePath + '/{id}',
-    handler: (req) => {
-      return customer.deleteCustomer(req);
-    },
+    handler: (req) => handler.handleUpdateCustomer(req),
     config: {
       validate: {
         params: Joi.object({
-          id: Joi.string().required(),
+          id: Joi.string().required()
         }),
-        payload: Joi.object({
-          name: Joi.string(),
-          surname: Joi.string(),
-          fiscalId: Joi.string(),
-        }),
+        payload: schema.customerUpdateSchema
       },
       tags: ['Customers', 'api'],
-      description: 'Update customer information',
-    },
+      description: 'Update customer information'
+    }
   }];

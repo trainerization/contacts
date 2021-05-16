@@ -11,34 +11,39 @@ const init = async () => {
   dotenv.config();
 
   const server = _server({
+    debug: {
+      request: ['error', 'info', 'debug']
+    },
     port: process.env.NODE_SERVER_PORT,
-    host: '0.0.0.0',
+    host: '0.0.0.0'
   });
 
-  await server.register([{
-    plugin: mongodb,
-    options: {
-      url: `mongodb://${process.env.MONGO_SERVER_USERNAME}:${process.env.MONGO_SERVER_PASSWORD}@${process.env.MONGO_SERVER_ADDRESS}?ssl=${process.env.MONGO_SSL_ENABLED}`,
-      settings: {
-        useUnifiedTopology: true,
-      },
-      decorate: true,
+  await server.register([
+    {
+      plugin: mongodb,
+      options: {
+        url: `mongodb://${process.env.MONGO_SERVER_USERNAME}:${process.env.MONGO_SERVER_PASSWORD}@${process.env.MONGO_SERVER_ADDRESS}?ssl=${process.env.MONGO_SSL_ENABLED}`,
+        settings: {
+          useUnifiedTopology: true
+        },
+        decorate: true
+      }
     },
-  },
-  inert,
-  vision,
-  {
-    plugin: swagger,
-    options: {
-      info: {
-        title: `API Documentation for Customers`,
-      },
-      schemes: ['http'],
-      basePath: '/',
-      documentationPath: '/doc',
-      debug: true,
-    },
-  }]);
+    inert,
+    vision,
+    {
+      plugin: swagger,
+      options: {
+        info: {
+          title: `API Documentation for Customers`
+        },
+        schemes: ['http'],
+        basePath: '/',
+        documentationPath: '/doc',
+        debug: true
+      }
+    }
+  ]);
 
   server.route(customer.routes);
   await server.start();

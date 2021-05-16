@@ -1,40 +1,51 @@
 /* eslint-disable max-len */
-/* eslint-disable require-jsdoc */
 
-async function getCustomer(req) {
+async function getCustomer(req, customerId) {
   const ObjectID = req.mongo.ObjectID;
 
-  return await req.mongo.db.collection('customers').findOne({_id: new ObjectID(req.params.id)});
+  return await req.mongo.db.collection('customers').findOne({_id: new ObjectID(customerId)});
 }
 
-async function createCustomer(req) {
-  return await req.mongo.db.collection('customers').insertOne(req.payload);
+async function getCustomers(req) {
+  return await req.mongo.db.collection('customers').find();
 }
 
-async function deleteCustomer(req) {
-  const customer = getCustomer(req);
+async function createCustomer(req, payload) {
+  return await req.mongo.db.collection('customers').insertOne(payload);
+}
+
+async function deleteCustomer(req, customerId) {
+  const customer = getCustomer(req, customerId);
 
   if (customer) {
     const ObjectID = req.mongo.ObjectID;
 
-    return await req.mongo.db.collection('customers').deleteOne({_id: new ObjectID(req.params.id)});
-  } else {
-    // TODO
+    return await req.mongo.db.collection('customers').deleteOne({_id: new ObjectID(customerId)});
   }
 }
 
-async function updateCustomer(req) {
-  const customer = getCustomer(req);
+async function updateCustomer(req, customerId, payload) {
+  const customer = getCustomer(req, customerId);
 
-  if (customer) {
-  } else {
-    // TODO
+  let result;
+
+  if (customer && payload) {
+    const ObjectID = req.mongo.ObjectID;
+
+    result = await req.mongo.db.collection('customers').findOneAndUpdate(
+        {_id: new ObjectID(customerId)},
+        {$set: {payload}},
+        {returnOriginal: false}
+    );
   }
+
+  return result;
 }
 
-export default [
+export {
   getCustomer,
+  getCustomers,
   createCustomer,
   deleteCustomer,
-  updateCustomer,
-];
+  updateCustomer
+};
