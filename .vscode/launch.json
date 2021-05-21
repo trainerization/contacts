@@ -12,7 +12,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/customers/route.js"
+            "program": "${workspaceFolder}/server.js"
         }
     ]
 }

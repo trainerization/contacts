@@ -3,15 +3,16 @@
 async function getCustomer(req, customerId) {
   const ObjectID = req.mongo.ObjectID;
 
-  return await req.mongo.db.collection('customers').findOne({_id: new ObjectID(customerId)});
+  const res = await req.mongo.db.collection('customers').findOne({_id: new ObjectID(customerId)});
+  return res
 }
 
 async function getCustomers(req) {
-  return await req.mongo.db.collection('customers').find();
+  return req.mongo.db.collection('customers').find();
 }
 
 async function createCustomer(req, payload) {
-  return await req.mongo.db.collection('customers').insertOne(payload);
+  return req.mongo.db.collection('customers').insertOne(payload);
 }
 
 async function deleteCustomer(req, customerId) {
@@ -20,7 +21,7 @@ async function deleteCustomer(req, customerId) {
   if (customer) {
     const ObjectID = req.mongo.ObjectID;
 
-    return await req.mongo.db.collection('customers').deleteOne({_id: new ObjectID(customerId)});
+    return req.mongo.db.collection('customers').deleteOne({_id: new ObjectID(customerId)});
   }
 }
 
@@ -34,7 +35,7 @@ async function updateCustomer(req, customerId, payload) {
 
     result = await req.mongo.db.collection('customers').findOneAndUpdate(
         {_id: new ObjectID(customerId)},
-        {$set: {payload}},
+        {$set: {...payload}},
         {returnOriginal: false}
     );
   }

@@ -22,10 +22,7 @@ async function handleRetrieveAllCustomer(req) {
   }
 
   const resultArray = customerResult.map((customer) => {
-    return {
-      ...customer.payload,
-      _id: customer._id.toString()
-    };
+    return buildCustomer(customer._id, customer)
   } );
 
   return resultArray; // TODO remapping
@@ -44,7 +41,7 @@ async function handleCreateCustomer(req) {
     throw new Boom.internal(StorageError.CustomerCreationError);
   }
 
-  return insertOp;
+  return buildCustomer(insertOp.insertedId, payload)
 }
 
 async function handleRetrieveCustomer(req) {
@@ -65,7 +62,7 @@ async function handleRetrieveCustomer(req) {
     throw Boom.notFound(StorageError.CustomerRetrievingError);
   }
 
-  return retrieveOp; // TODO remapping
+  return buildCustomer(retrieveOp._id, retrieveOp);
 }
 
 async function handleUpdateCustomer(req) {
@@ -96,7 +93,7 @@ async function handleUpdateCustomer(req) {
     throw new Boom.notFound(StorageError.CustomerUpdateError);
   }
 
-  return updateOp.value.payload;
+  return buildCustomer(customerId, payload)
 }
 
 async function handleDeleteCustomer(req) {
@@ -119,6 +116,13 @@ async function handleDeleteCustomer(req) {
   }
 
   return {};
+}
+
+function buildCustomer(objectId, customer) {
+  return {
+    ...customer,
+    _id: objectId.toString()
+  }
 }
 
 export {

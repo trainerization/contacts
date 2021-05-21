@@ -35,7 +35,7 @@ export const routes = [
     }
   },
   {
-    method: 'PUT',
+    method: 'POST',
     path: routeBasePath,
     handler: (req) => handler.handleCreateCustomer(req),
     config: {
@@ -64,14 +64,15 @@ export const routes = [
     }
   },
   {
-    method: 'PATCH',
+    method: 'PUT',
     path: routeBasePath + '/{id}',
     handler: (req) => handler.handleUpdateCustomer(req),
     config: {
       validate: {
         params: Joi.object({
           id: Joi.string().required()
-        })
+        }),
+        payload: schema.customerSchema
       },
       response: {schema: schema.customerSchema},
       tags: ['Customers', 'api'],
