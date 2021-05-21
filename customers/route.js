@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import schema from '../constants/schema.js';
+import * as schema from '../constants/schema.js';
 import * as handler from './handler.js';
 
 const routeBasePath = '/customers';
@@ -10,6 +10,9 @@ export const routes = [
     path: routeBasePath,
     handler: (req) => handler.handleRetrieveAllCustomer(req),
     config: {
+      response: {
+        schema: Joi.array().items(schema.customerSchema)
+      },
       tags: ['Customers', 'api'],
       description: 'Retrive all customer ids'
     }
@@ -24,6 +27,9 @@ export const routes = [
           id: Joi.string().required()
         })
       },
+      response: {
+        schema: schema.customerSchema
+      },
       tags: ['Customers', 'api'],
       description: 'Retrive customer information'
     }
@@ -34,7 +40,10 @@ export const routes = [
     handler: (req) => handler.handleCreateCustomer(req),
     config: {
       validate: {
-        payload: schema.customerCreationSchema
+        payload: schema.customerSchema
+      },
+      response: {
+        schema: schema.customerSchema
       },
       tags: ['Customers', 'api'],
       description: 'Create a customer'
@@ -62,9 +71,9 @@ export const routes = [
       validate: {
         params: Joi.object({
           id: Joi.string().required()
-        }),
-        payload: schema.customerUpdateSchema
+        })
       },
+      response: {schema: schema.customerSchema},
       tags: ['Customers', 'api'],
       description: 'Update customer information'
     }

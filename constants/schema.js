@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const addressObject = Joi.object({
+const addressObject = Joi.object().keys({
   line1: Joi.string().required(),
   line2: Joi.string(),
   line3: Joi.string(),
@@ -12,7 +12,8 @@ const addressObject = Joi.object({
   type: Joi.string().valid('residence', 'billing').required()
 });
 
-const customerCreationSchema = Joi.object({
+const customerSchema = Joi.object().keys({
+  _id: Joi.string(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
   fiscalId: Joi.string().required(),
@@ -25,20 +26,7 @@ const customerCreationSchema = Joi.object({
   sex: Joi.string().valid('F', 'M', 'A').required()
 });
 
-const customerUpdateSchema = Joi.object({
-  firstName: Joi.string(),
-  lastName: Joi.string(),
-  fiscalId: Joi.string(),
-  address: addressObject,
-  billingAddress: addressObject,
-  email: Joi.string(),
-  phone1: Joi.string(),
-  phone2: Joi.string(),
-  birthDate: Joi.date().iso(),
-  sex: Joi.string().valid('F', 'M', 'A')
-});
 
-export default [
-  customerCreationSchema,
-  customerUpdateSchema
-];
+export {
+  customerSchema
+};

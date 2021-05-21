@@ -14,14 +14,21 @@ async function handleRetrieveAllCustomer(req) {
     throw Boom.internal(StorageError.CustomersRetrievingError);
   }
 
-  const customerResult = retrieveOp.toArray();
+  const customerResult = await retrieveOp.toArray();
 
   if (!customerResult || customerResult.lenght === 0) {
     req.log('info', 'No customer found');
     throw new Boom.notFound(StorageError.CustomersRetrievingError);
   }
 
-  return await customerResult; // TODO remapping
+  const resultArray = customerResult.map((customer) => {
+    return {
+      ...customer.payload,
+      _id: customer._id.toString()
+    };
+  } );
+
+  return resultArray; // TODO remapping
 }
 
 async function handleCreateCustomer(req) {
