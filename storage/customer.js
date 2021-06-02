@@ -4,7 +4,7 @@ async function getCustomer(req, customerId) {
   const ObjectID = req.mongo.ObjectID;
 
   const res = await req.mongo.db.collection('customers').findOne({_id: new ObjectID(customerId)});
-  return res
+  return res;
 }
 
 async function getCustomers(req) {

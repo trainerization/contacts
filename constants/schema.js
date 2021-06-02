@@ -1,5 +1,7 @@
 import Joi from 'joi';
 
+const cfRegex = /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/;
+
 const addressObject = Joi.object().keys({
   line1: Joi.string().required(),
   line2: Joi.string(),
@@ -16,7 +18,7 @@ const customerSchema = Joi.object().keys({
   _id: Joi.string(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  fiscalId: Joi.string().required(),
+  fiscalId: Joi.string().regex(cfRegex).required(),
   address: addressObject,
   billingAddress: addressObject,
   email: Joi.string().required(),
